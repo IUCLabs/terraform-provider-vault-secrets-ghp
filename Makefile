@@ -1,10 +1,10 @@
-.PHONY: build install test lint fmt clean tidy package e2e patch minor major check-go
+.PHONY: build install test lint fmt clean tidy package patch minor major check-go
 
-BINARY := terraform-provider-ghpvaultsecret
+BINARY := terraform-provider-vault-secrets-ghp
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo "0.0.0-dev")
 OS_ARCH := linux_amd64
 INSTALL_VERSION := $(shell echo $(VERSION) | sed 's/^v//')
-INSTALL_DIR := ~/.terraform.d/plugins/git.unkin.net/unkin/ghpvaultsecret/$(INSTALL_VERSION)/$(OS_ARCH)
+INSTALL_DIR := ~/.terraform.d/plugins/git.unkin.net/unkin/vault-secrets-ghp/$(INSTALL_VERSION)/$(OS_ARCH)
 ZIP := $(BINARY)_$(INSTALL_VERSION)_$(OS_ARCH).zip
 
 GO_VERSION_REQUIRED := 1.25
@@ -35,10 +35,6 @@ package: build
 	cp $(BINARY) $(BINARY)_v$(INSTALL_VERSION)
 	python3 -c "import zipfile,sys; z=zipfile.ZipFile(sys.argv[1],'w',zipfile.ZIP_DEFLATED); z.write(sys.argv[2]); z.close()" $(ZIP) $(BINARY)_v$(INSTALL_VERSION)
 	rm $(BINARY)_v$(INSTALL_VERSION)
-
-# End-to-end: boots Vault + mock ghp + the plugin and applies real terraform.
-e2e:
-	./scripts/e2e.sh
 
 clean:
 	rm -f $(BINARY) *.zip

@@ -1,3 +1,7 @@
+// Command terraform-provider-vault-secrets-ghp is the Terraform/OpenTofu
+// provider for the vault-plugin-secrets-ghp secrets engine: it manages the
+// engine's mount + connection config and its token-minting roles on HashiCorp
+// Vault or OpenBao.
 package main
 
 import (
@@ -7,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 
-	"git.unkin.net/unkin/terraform-provider-ghpvaultsecret/internal/provider"
+	"git.unkin.net/unkin/terraform-provider-vault-secrets-ghp/internal/provider"
 )
 
 var version = "0.0.1"
@@ -18,7 +22,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "git.unkin.net/unkin/ghpvaultsecret",
+		Address: "git.unkin.net/unkin/vault-secrets-ghp",
 		Debug:   debug,
 	}
 

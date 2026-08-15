@@ -1,4 +1,4 @@
-/terraform-provider-ghpvaultsecret
+/terraform-provider-vault-secrets-ghp
 *.zip
 *.out
 *.test
@@ -8,7 +8,3 @@ dist/
 *.tfstate
 *.tfstate.backup
 .env
-
-# e2e artifacts
-test/plugins/
-test/dev.tfrc

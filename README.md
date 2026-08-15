@@ -1,43 +1,43 @@
-# terraform-provider-ghpvaultsecret
+# terraform-provider-vault-secrets-ghp
 
-A Terraform provider that manages the **ghp token secrets engine**
+A Terraform/OpenTofu provider that manages the **ghp token secrets engine**
 ([`vault-plugin-secrets-ghp`](https://git.unkin.net/unkin/vault-plugin-secrets-ghp))
 on HashiCorp Vault or OpenBao, so the engine's mount, config, and roles can be
 driven declaratively (e.g. from `terraform-vault`).
 
-Source address: `git.unkin.net/unkin/ghpvaultsecret` (declare it under the local
-name `ghpvaultsecret`, so its resources are `ghpvaultsecret_*`).
+Source address: `git.unkin.net/unkin/vault-secrets-ghp` (declare it under the
+local name `ghp`, so its resources are `ghp_*`).
 
 ## Resources
 
 | Resource | Manages |
 |----------|---------|
-| `ghpvaultsecret_secret_backend` | Mounts the engine at a path and writes its `config` (ghp base URL, TLS, seeded service token). |
-| `ghpvaultsecret_secret_role` | A role: `token_type`, `installation_id`, `app_record_id`, `repositories`, `scopes`, `session_prefix`, `ttl`, `max_ttl`. |
+| `ghp_secret_backend` | Mounts the engine at a path and writes its `config` (ghp base URL, TLS, seeded service token). |
+| `ghp_secret_role` | A role: `token_type`, `installation_id`, `app_record_id`, `repositories`, `scopes`, `session_prefix`, `ttl`, `max_ttl`. |
 
 ## Usage
 
 ```hcl
 terraform {
   required_providers {
-    ghpvaultsecret = {
-      source = "git.unkin.net/unkin/ghpvaultsecret"
+    ghp = {
+      source = "git.unkin.net/unkin/vault-secrets-ghp"
     }
   }
 }
 
-provider "ghpvaultsecret" {
+provider "ghp" {
   # address / token fall back to VAULT_ADDR / VAULT_TOKEN.
 }
 
-resource "ghpvaultsecret_secret_backend" "ghp" {
+resource "ghp_secret_backend" "ghp" {
   path        = "ghp"
   base_url    = "https://ghp.unkin.net"
   admin_token = var.ghp_admin_token
 }
 
-resource "ghpvaultsecret_secret_role" "ci" {
-  backend         = ghpvaultsecret_secret_backend.ghp.path
+resource "ghp_secret_role" "ci" {
+  backend         = ghp_secret_backend.ghp.path
   name            = "ci"
   token_type      = "agent"
   installation_id = 12345
@@ -64,8 +64,8 @@ resource "ghpvaultsecret_secret_role" "ci" {
 ## Import
 
 ```sh
-terraform import ghpvaultsecret_secret_backend.ghp ghp
-terraform import ghpvaultsecret_secret_role.ci ghp/roles/ci
+terraform import ghp_secret_backend.ghp ghp
+terraform import ghp_secret_role.ci ghp/roles/ci
 ```
 
 ## Development
@@ -74,12 +74,11 @@ terraform import ghpvaultsecret_secret_role.ci ghp/roles/ci
 make build      # build the provider binary
 make install    # install into ~/.terraform.d/plugins for local use
 make test       # unit tests (race)
-make e2e        # apply real terraform against Vault + a mock ghp (Docker)
 make package    # build the release zip
 ```
 
 Releases are tag-driven (`make patch|minor|major`): a Woodpecker pipeline builds
-`terraform-provider-ghpvaultsecret_<version>_linux_amd64.zip` and PUTs it to the
-artifactapi terraform registry
-(`.../api/v2/remotes/terraform-unkin/files/unkin/ghpvaultsecret/<file>`), which
+`terraform-provider-vault-secrets-ghp_<version>_linux_amd64.zip` and PUTs it to
+the artifactapi terraform registry
+(`.../api/v2/remotes/terraform-unkin/files/unkin/vault-secrets-ghp/<file>`), which
 signs it server-side. Install it via the bare `source` address above.

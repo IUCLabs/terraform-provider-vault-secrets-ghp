@@ -29,10 +29,10 @@ func New(version string) func() provider.Provider {
 }
 
 func (p *ghpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	// Source address is git.unkin.net/unkin/ghpvaultsecret; resources are
-	// prefixed "ghpvaultsecret_" (declare it under the local name
-	// "ghpvaultsecret" in required_providers).
-	resp.TypeName = "ghpvaultsecret"
+	// The provider's source address is git.unkin.net/unkin/vault-secrets-ghp,
+	// but its resources are prefixed "ghp_" (declare it in required_providers
+	// under the local name "ghp"), mirroring how google-beta ships google_*.
+	resp.TypeName = "ghp"
 	resp.Version = p.version
 }
 

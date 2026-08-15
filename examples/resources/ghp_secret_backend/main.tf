@@ -1,17 +1,17 @@
 terraform {
   required_providers {
-    ghpvaultsecret = {
-      source = "git.unkin.net/unkin/ghpvaultsecret"
+    ghp = {
+      source = "git.unkin.net/unkin/vault-secrets-ghp"
     }
   }
 }
 
-provider "ghpvaultsecret" {
+provider "ghp" {
   # address / token fall back to VAULT_ADDR / VAULT_TOKEN.
 }
 
 # Mount the ghp secrets engine and seed it with a service token.
-resource "ghpvaultsecret_secret_backend" "ghp" {
+resource "ghp_secret_backend" "ghp" {
   path     = "ghp"
   base_url = "https://ghp.unkin.net"
   ca_cert  = file("${path.module}/ghp-ca.pem")

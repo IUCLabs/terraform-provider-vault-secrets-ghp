@@ -1,4 +1,4 @@
-module git.unkin.net/unkin/terraform-provider-ghpvaultsecret
+module git.unkin.net/unkin/terraform-provider-vault-secrets-ghp
 
 go 1.25
 
