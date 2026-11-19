@@ -3,7 +3,7 @@
 Manages the [ghp secrets engine](https://github.com/IUCLabs/vault-plugin-secrets-ghp)
 on HashiCorp Vault or OpenBao from Terraform or OpenTofu: mount the engine, write
 its connection config and service token, and define the roles that mint
-short-lived ghp tokens.
+short-lived [ghp](https://github.com/goodtune/ghp) tokens.
 
 The provider's resources are prefixed `ghp_`, so declare it under the local name
 `ghp`.

@@ -38,7 +38,8 @@ func (p *ghpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, re
 
 func (p *ghpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manages the ghp secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.",
+		Description:         "Manages the ghp secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.",
+		MarkdownDescription: "Manages the [ghp](https://github.com/goodtune/ghp) secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.",
 		Attributes: map[string]schema.Attribute{
 			"address": schema.StringAttribute{
 				Description: "Address of the Vault/OpenBao server. Falls back to the VAULT_ADDR environment variable.",

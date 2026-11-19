@@ -3,12 +3,12 @@
 page_title: "ghp Provider"
 subcategory: ""
 description: |-
-  Manages the ghp secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.
+  Manages the ghp https://github.com/goodtune/ghp secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.
 ---
 
 # ghp Provider
 
-Manages the ghp secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.
+Manages the [ghp](https://github.com/goodtune/ghp) secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.
 
 ## Example Usage
 
