@@ -29,7 +29,7 @@ func New(version string) func() provider.Provider {
 }
 
 func (p *ghpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	// The provider's source address is git.unkin.net/unkin/vault-secrets-ghp,
+	// The provider's source address is IUCLabs/vault-secrets-ghp,
 	// but its resources are prefixed "ghp_" (declare it in required_providers
 	// under the local name "ghp"), mirroring how google-beta ships google_*.
 	resp.TypeName = "ghp"
@@ -38,7 +38,7 @@ func (p *ghpProvider) Metadata(_ context.Context, _ provider.MetadataRequest, re
 
 func (p *ghpProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manage the ghp token secrets engine (config and roles) on HashiCorp Vault or OpenBao.",
+		Description: "Manages the ghp secrets engine (vault-plugin-secrets-ghp) on HashiCorp Vault or OpenBao: its mount, connection config and roles. The plugin must already be registered in the plugin catalog.",
 		Attributes: map[string]schema.Attribute{
 			"address": schema.StringAttribute{
 				Description: "Address of the Vault/OpenBao server. Falls back to the VAULT_ADDR environment variable.",

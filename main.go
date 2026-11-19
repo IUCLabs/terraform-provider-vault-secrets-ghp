@@ -4,6 +4,8 @@
 // Vault or OpenBao.
 package main
 
+//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@v0.21.0 generate --provider-name ghp
+
 import (
 	"context"
 	"flag"
@@ -11,7 +13,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 
-	"git.unkin.net/unkin/terraform-provider-vault-secrets-ghp/internal/provider"
+	"github.com/IUCLabs/terraform-provider-vault-secrets-ghp/internal/provider"
 )
 
 var version = "0.0.1"
@@ -22,7 +24,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "git.unkin.net/unkin/vault-secrets-ghp",
+		Address: "registry.terraform.io/iuclabs/vault-secrets-ghp",
 		Debug:   debug,
 	}
 

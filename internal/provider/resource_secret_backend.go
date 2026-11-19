@@ -23,8 +23,6 @@ var (
 
 const defaultPluginType = "vault-plugin-secrets-ghp"
 
-const defaultBaseURL = "https://ghp.unkin.net"
-
 type secretBackendResource struct {
 	client *vaultClient
 }
@@ -50,17 +48,17 @@ func (r *secretBackendResource) Metadata(_ context.Context, req resource.Metadat
 
 func (r *secretBackendResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Mounts the ghp secrets engine and writes its connection config and seeded service token.",
+		Description: "Mounts the ghp secrets engine and writes its connection config and service token. The engine checks the token against ghp on write, so a wrong URL or token fails the apply.",
 		Attributes: map[string]schema.Attribute{
 			"path": schema.StringAttribute{
-				Description: "Mount path for the ghp secrets engine (e.g. \"ghp\").",
+				Description: "Mount path for the ghp secrets engine, e.g. \"ghp\". Changing it forces a new mount.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"plugin": schema.StringAttribute{
-				Description: "Registered plugin name/type to mount.",
+				Description: "Name of the plugin in the plugin catalog. Defaults to \"vault-plugin-secrets-ghp\".",
 				Optional:    true,
 				Computed:    true,
 				Default:     stringdefault.StaticString(defaultPluginType),
@@ -69,16 +67,14 @@ func (r *secretBackendResource) Schema(_ context.Context, _ resource.SchemaReque
 				},
 			},
 			"description": schema.StringAttribute{
-				Description: "Human-readable description of the mount.",
+				Description: "Human-readable description of the mount. Defaults to \"\".",
 				Optional:    true,
 				Computed:    true,
 				Default:     stringdefault.StaticString(""),
 			},
 			"base_url": schema.StringAttribute{
-				Description: "Base URL of the ghp server (e.g. https://ghp.unkin.net).",
-				Optional:    true,
-				Computed:    true,
-				Default:     stringdefault.StaticString(defaultBaseURL),
+				Description: "Base URL of the ghp server, e.g. https://ghp.example.com.",
+				Required:    true,
 			},
 			"admin_token": schema.StringAttribute{
 				Description: "ghp service token (ghpsvc_...) the engine authenticates with. Write-only; never read back.",
@@ -91,13 +87,13 @@ func (r *secretBackendResource) Schema(_ context.Context, _ resource.SchemaReque
 				Sensitive:   true,
 			},
 			"tls_skip_verify": schema.BoolAttribute{
-				Description: "Skip TLS verification of the ghp server (not recommended).",
+				Description: "Skip TLS verification of the ghp server (not recommended). Defaults to false.",
 				Optional:    true,
 				Computed:    true,
 				Default:     booldefault.StaticBool(false),
 			},
 			"request_timeout_seconds": schema.Int64Attribute{
-				Description: "HTTP timeout in seconds for calls from the plugin to ghp.",
+				Description: "HTTP timeout in seconds for calls from the plugin to ghp. Defaults to 30.",
 				Optional:    true,
 				Computed:    true,
 				Default:     int64default.StaticInt64(30),

@@ -51,17 +51,17 @@ func (r *secretRoleResource) Metadata(_ context.Context, req resource.MetadataRe
 
 func (r *secretRoleResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manages a role on the ghp secrets engine that mints short-lived scoped ghp tokens.",
+		Description: "Manages a role on the ghp secrets engine. Each read of `<backend>/creds/<name>` mints a short-lived ghp token scoped by the role.",
 		Attributes: map[string]schema.Attribute{
 			"backend": schema.StringAttribute{
-				Description: "Mount path of the ghp secrets engine.",
+				Description: "Mount path of the ghp secrets engine. Changing it forces a new role.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"name": schema.StringAttribute{
-				Description: "Name of the role.",
+				Description: "Name of the role. Changing it forces a new role.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
